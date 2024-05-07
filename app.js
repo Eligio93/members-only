@@ -44,6 +44,11 @@ app.use(session({
   store: MongoStore.create({mongoUrl:process.env.DB_STRING})
 }))
 
+app.use(passport.session());
+
+
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
