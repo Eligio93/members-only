@@ -3,7 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const mongoose=require('mongoose')
+const mongoose=require('mongoose');
+const passport = require('./passport-config')
+const session=require('express-session')
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
