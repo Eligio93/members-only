@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 Sign Up
+  form(action='' method='POST')
+    label(for='user-name') Name
+    input(id='user-name' name='name' placeholder='name' type='text')
+    label(for='user-last-name') Last Name
+    input(id='user-last-name' name='lastName' placeholder='last name' type='text')
+    label(for='user-email') Email
+    input(id='user-email' name='email' placeholder='test@test.com' type='email')
+    label(for='user-password') Password
+    input(id='user-password' name='password' type='password')
+    button Sign Up
