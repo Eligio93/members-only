@@ -4,13 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose=require('mongoose');
-const passport = require('./passport-config')
 const session=require('express-session');
+const passport = require('./passport-config')
 const MongoStore=require('connect-mongo')
 require('dotenv').config();
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+
 
 ///-----CONNECTION TO DB-----///
 
@@ -45,6 +44,8 @@ app.use(session({
   store: MongoStore.create({mongoUrl:process.env.DB_STRING})
 }))
 
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
 
 app.use('/', indexRouter);
