@@ -3,10 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const mongoose=require('mongoose');
-const session=require('express-session');
+const mongoose = require('mongoose');
+const session = require('express-session');
 const passport = require('./passport-config')
-const MongoStore=require('connect-mongo')
+const MongoStore = require('connect-mongo')
 require('dotenv').config();
 
 
@@ -14,7 +14,7 @@ require('dotenv').config();
 ///-----CONNECTION TO DB-----///
 
 mongoose.set("strictQuery", false);
-const mongoDB =process.env.MONGODB_URI || process.env.DB_STRING;
+const mongoDB = process.env.MONGODB_URI || process.env.DB_STRING;
 main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
@@ -38,16 +38,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 ///-----CREATE SESSION-----///
 app.use(session({
-  secret:process.env.SECRET_KEY,
-  resave:false,
-  saveUninitialized:false,
-  store: MongoStore.create({mongoUrl:process.env.DB_STRING})
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: process.env.DB_STRING })
 }))
 
 app.use(passport.session());
-
-
-
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -61,12 +58,12 @@ app.use('/users', usersRouter);
 ///----- HANDLING ERRORS-----///
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
