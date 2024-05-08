@@ -1,5 +1,29 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  if !user
+    h1 Welcome to Members Only Message Board 
+    a(href='/login') Log In
+    br
+    a(href='/signup') Register
+  else 
+    h1 Welcome #{user.name}
+    a(href='/newMessage') Write New Message
+    br
+    a(href='/logout') Log Out 
+  if messages.length > 0
+    each message in messages 
+      p=message.title 
+      p=message.text
+      if user
+        if user.admin  || user.member
+          p=message.date 
+          p=message.author.name
+        if user.admin 
+          a(href='/deleteMessage') Delete Message
+  else 
+    p There's no messages in the board
+
+
+  
+  
