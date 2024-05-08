@@ -1,41 +1,28 @@
 var express = require('express');
 var router = express.Router();
-const User= require('../models/user');
+const User = require('../models/user');
 const passport = require('../passport-config');
+const userController= require('../controllers/userController')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', function (req, res, next) {
+  res.render('index', { title: 'Express', user: req.user });
 });
+
+
 /*GET Log In*/
-router.get('/login', function (req,res,next){
-  res.render('log-in')
-})
-/*POST LOG In*/
-router.post('/login',passport.authenticate('local',{ 
-  successRedirect:'/',
-  failureRedirect:'/login'
+router.get('/login',userController.login_get)
+/*POST Log In*/
+router.post('/login', userController.login_post)
 
-}) )
+/*GET Logout*/
+router.get('/logout',userController.logout)
+
+
+
 /*GET SIGN UP*/
-router.get('/sign-up',(req, res) => res.render("sign-up-form"))
+router.get('/sign-up',userController.signup_get )
 /*POST SIGN UP*/
-router.post("/sign-up", async (req, res, next) => {
-  try {
-    const user = new User({
-      name:req.body.name,
-      lastName:req.body.lastName,
-      email:req.body.email,
-      password:req.body.password,
-      member:false,
-      admin:false
-
-    });
-    await user.save();
-    res.redirect("/sign-up");
-  } catch(err) {
-    return next(err);
-  };
-});
+router.post("/sign-up",userController.signup_post);
 
 module.exports = router;
