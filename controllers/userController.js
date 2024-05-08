@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler')
 const passport = require('../passport-config')
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs')
+require('dotenv').config()
 
 /*GET login*/
 exports.login_get = function (req, res, next) {
@@ -33,19 +34,26 @@ exports.signup_get = function (req, res) {
 exports.signup_post = [
   //insert validation and sanitizing
   asyncHandler(async (req, res, next) => {
-    const hashedPassword= await bcrypt.hash(req.body.password,10)
+    function checkAdminKey(adminkey) {
+      if (adminkey === process.env.ADMIN_KEY) {
+        return true
+      } else {
+        return false
+      }
+    }
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     try {
       const user = new User({
         name: req.body.name,
         lastName: req.body.lastName,
         email: req.body.email,
-        password:hashedPassword, 
+        password: hashedPassword,
         member: false,
-        admin: false
+        admin: checkAdminKey(req.body['admin-key'])
       });
-   
+
       await user.save();
-      res.redirect("/sign-up");
+      res.redirect("/login");
 
     } catch (err) {
       return next(err);
