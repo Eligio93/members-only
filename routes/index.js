@@ -3,11 +3,10 @@ var router = express.Router();
 const User = require('../models/user');
 const passport = require('../passport-config');
 const userController= require('../controllers/userController')
+const messageController= require('../controllers/messageController')
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express', user: req.user });
-});
+router.get('/', messageController.index);
 
 
 /*GET Log In*/
@@ -19,10 +18,19 @@ router.post('/login', userController.login_post)
 router.get('/logout',userController.logout)
 
 
-
 /*GET SIGN UP*/
-router.get('/sign-up',userController.signup_get )
+router.get('/signup',userController.signup_get )
 /*POST SIGN UP*/
-router.post("/sign-up",userController.signup_post);
+router.post("/signup",userController.signup_post);
+
+/*GET New Message Form*/
+router.get('/newMessage',messageController.newMessage_get)
+/*POST New Message POst*/
+router.post('/newMessage',messageController.newMessage_post)
+
+/*GET delete message*/
+router.get('/delete/:messageId',messageController.delete_message_get)
+/*POST delete message*/
+router.post('/delete/:messageId',messageController.delete_message_post)
 
 module.exports = router;
