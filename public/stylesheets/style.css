@@ -1,8 +1,42 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+:root{
+  --prussian-blue:#0B3C5D;
+  --gold-leaf:#D9B310;
+  --warm-peach:#CD5360;
+  --green:#B5D99C;
+}
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+body{
+  font-family: 'Quicksand', Helvetica, sans-serif;
+  height:1000px;
 }
 
-a {
-  color: #00B7FF;
+.header{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  height:10%;
+}
+.content{
+  display:flex;
+  height:90%;
+}
+.info-box{
+  width:30%;
+  padding:50px;
+}
+.messages-box{
+  display:flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  gap:20px;
+  row-gap: 20px;
+  flex:1;
+}
+.message{
+  width:30%;
+
 }
