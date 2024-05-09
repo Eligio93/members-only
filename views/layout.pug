@@ -3,5 +3,18 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet") 
   body
-    block content
+    .header 
+      p Logo
+      if user 
+        .auth-box 
+          a(href='/logout').auth-btn Logout 
+      else 
+        .auth-box 
+          a(href='/login').auth-btn  Login 
+          a(href='/signup').auth-btn Register
+    .content
+      block content
