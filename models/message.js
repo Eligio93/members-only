@@ -8,4 +8,9 @@ const MessageSchema= new Schema({
     date:{type:Date, required:true}
 })
 
+MessageSchema.virtual('url').get(function(){
+    return this._id
+})
+
+
 module.exports=mongoose.model('Message',MessageSchema)
