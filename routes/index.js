@@ -23,6 +23,11 @@ router.get('/signup',userController.signup_get )
 /*POST SIGN UP*/
 router.post("/signup",userController.signup_post);
 
+/*Get Instructions*/
+router.get('/instructions',(req,res,next)=>{
+    res.render('instructions')
+})
+
 /*GET New Message Form*/
 router.get('/newMessage',messageController.newMessage_get)
 /*POST New Message POst*/
