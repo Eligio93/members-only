@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    .card-box 
+        .card 
+            img(src="./images/userIcon.svg", alt="user-icon")
+            p.card-title User
+            p.card-instruction An User can write messages, but can't view Authors and Dates and can't delete messages. You can become User with a simple registration
+        .card 
+            img(src="./images/memberIcon.svg", alt="member-icon")
+            p.card-title Member
+            p.card-instruction A Member can write messages, view Authors and Dates but can't delete messages. You can become Member with a registration and a Member secret key
+        .card 
+            img(src="./images/adminIcon.svg", alt="admin-icon")
+            p.card-title Admin
+            p.card-instruction An Admin can write messages, view Authors and Dates and delete messages. You can become Admin with a registration and an Admin secret key
+  
