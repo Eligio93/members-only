@@ -1,10 +1,10 @@
+const { format } = require('date-fns')
 const Message = require('../models/message')
 const User= require('../models/user')
 const asyncHandler=require('express-async-handler')
 
 exports.index=asyncHandler(async(req,res,next)=>{
     const allMessages= await Message.find({}).populate('author')
-    console.log(req.user)
     res.render('index',{messages:allMessages, user:req.user})
 })
 
@@ -15,12 +15,14 @@ exports.newMessage_get=function(req,res,next){
 /*POST New Message form*/
 exports.newMessage_post=asyncHandler(async (req,res,next)=>{
     const author= await User.findById(req.user.id)
+    const date= format(new Date(), 'dd-MMMM-yyyy')
     const message= new Message({
         title:req.body.messageTitle,
         text: req.body.message,
         author: author,
-        date: new Date()
+        date: date
     })
+    console.log(message.date)
     await message.save()
     res.redirect('/')
 })
