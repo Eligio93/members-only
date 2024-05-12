@@ -7,12 +7,15 @@ require('dotenv').config()
 
 /*GET login*/
 exports.login_get = function (req, res, next) {
-  res.render('log-in', { isAuthenticated: req.isAuthenticated() })
+  const logInMessage=req.session.messages
+  req.session.messages=[]
+  res.render('log-in', { isAuthenticated: req.isAuthenticated(),logInMessage:logInMessage })
 }
 /*POST login*/
 exports.login_post = passport.authenticate("local", {
   successRedirect: '/',
-  failureRedirect: '/login'
+  failureRedirect: '/login',
+  failureMessage:true
 })
 
 /*GET logout*/
@@ -34,13 +37,21 @@ exports.signup_get = function (req, res) {
 exports.signup_post = [
   //insert validation and sanitizing
   asyncHandler(async (req, res, next) => {
-    function checkAdminKey(adminkey) {
-      if (adminkey === process.env.ADMIN_KEY) {
+    function checkAdmin(key){
+      if(key===process.env.ADMIN_KEY){
         return true
-      } else {
-        return false
       }
+      return false
     }
+    function checkMember(key){
+      if(checkAdmin(key) || key=== process.env.MEMBER_KEY){
+        return true
+      }
+      return false
+    }
+
+
+    
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     try {
       const user = new User({
@@ -48,13 +59,11 @@ exports.signup_post = [
         lastName: req.body.lastName,
         email: req.body.email,
         password: hashedPassword,
-        member: false,
-        admin: checkAdminKey(req.body['admin-key'])
+        member: checkMember(req.body["permission-key"]),
+        admin: checkAdmin(req.body["permission-key"])
       });
-
       await user.save();
       res.redirect("/login");
-
     } catch (err) {
       return next(err);
     };
