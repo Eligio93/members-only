@@ -1,10 +1,17 @@
 extends layout
 
 block content
-  h1 New Message
-  form(action='' method='POST')
-    label(for='messageTitle') Message Title
-    input(id='messageTitle' name='messageTitle' type='text' required minLength='3')
-    label(for='message') Message
-    input(id='message' name='message' type='text' required minLength='3')
-    button(type='submit') Send Message
+  .message-box
+    if user
+      form(action='' method='POST').form
+        h2 New Message
+        label(for='messageTitle') Message Title
+        input(id='messageTitle' name='messageTitle' type='text' required minLength='3')
+        label(for='message') Message
+        input(id='message' name='message' type='text' required minLength='3')
+        button(type='submit').info-btn Send Message
+    else 
+      p You need to register or log in before you can write messages 
+      a(href='/login') Login
+      br
+      a(href='/signup') Sign Up

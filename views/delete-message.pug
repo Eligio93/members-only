@@ -1,16 +1,22 @@
 extends layout
 
 block content
-    if user && user.admin 
-        form(method='POST')
-            h1 Are you sure you want to delete this message?
-            p= message.title 
-            p=message.text 
-            p=message.author.name
-            p=message.date
-            input(type="hidden" name='messageId' value=message._id)
-            button(type='submit') Delete 
-            a(href='/') Cancel
-    else 
-        p You need to be Admin to delete messages
-        a(href='/') Go to Home Page
+    .delete-box
+        if user && user.admin 
+            form(method='POST').form
+                h2 Are you sure you want to delete this message?
+                h4 Message title
+                p= message.title 
+                h4 Message
+                p=message.text
+                h4 From
+                p=message.author.name
+                h4 On
+                p=message.date
+                input(type="hidden" name='messageId' value=message._id)
+                .delete-btns
+                    button(type='submit').delete-btn Delete 
+                    a(href='/').auth-btn Cancel
+        else 
+            p You need to be Admin to delete messages
+            a(href='/') Go to Home Page

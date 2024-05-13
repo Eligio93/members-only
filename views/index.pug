@@ -1,28 +1,32 @@
 extends layout
 
 block content
-  if !user
-    h1 Welcome to Members Only Message Board 
-    a(href='/login') Log In
-    br
-    a(href='/signup') Register
-  else 
-    h1 Welcome #{user.name}
-    a(href='/newMessage') Write New Message
-    br
-    a(href='/logout') Log Out 
-  if messages.length > 0
-    each message in messages 
-      p=message.title 
-      p=message.text
-      if user
-        if user.admin  || user.member
-          p=message.date 
-          p=message.author.name
-        if user.admin 
-          a(href='/deleteMessage') Delete Message
-  else 
-    p There's no messages in the board
+  .info-box
+    if !user
+      h1 Welcome to Members Only Message Board 
+    else 
+      h1 Welcome #{user.name}
+      a(href='/newMessage').info-btn Write New Message
+      if !user.admin
+        a(href='/upgrade').info-btn Upgrade your status
+  .messages-box
+    if messages.length > 0
+      each message in messages
+        .message
+          p.message-title=message.title
+          p.message-text=message.text
+          if user
+            if user.admin  || user.member
+              .message-info
+                p.message-date On: #{message.date}
+                p.message-author From:  #{message.author.name}
+            else 
+              .message-info 
+                a(href='/upgrade') View Date and Author
+            if user.admin 
+              a(href='/delete/'+message.url).delete-btn Delete Message
+    else 
+      p There's no messages in the board
 
 
   

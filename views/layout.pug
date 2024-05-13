@@ -8,13 +8,15 @@ html
     link(href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet") 
   body
     .header 
-      p Logo
+      a(href='/').home-btn EC Members Only
       if user 
         .auth-box 
           a(href='/logout').auth-btn Logout 
+          a(href='/instructions').auth-btn How it works
       else 
         .auth-box 
           a(href='/login').auth-btn  Login 
           a(href='/signup').auth-btn Register
+          a(href='/instructions').auth-btn How it works
     .content
       block content

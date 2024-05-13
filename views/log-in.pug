@@ -1,10 +1,17 @@
 extends layout
 
 block content
-  h1 Log In
-  form(action='' method='POST')
-    label(for='user-email') Email
-    input(id='user-email' name='email' placeholder='test@test.com' type='email')
-    label(for='user-password') Password
-    input(id='user-password' name='password' type='password')
-    button Log In
+  .log-in-box
+    if !isAuthenticated
+      form(action='' method='POST').form
+        h2 Log In
+        if logInMessage && logInMessage.length > 0
+          p.sess-message=logInMessage
+        label(for='user-email') Email
+        input(id='user-email' name='email' placeholder='test@test.com' type='email')
+        label(for='user-password') Password
+        input(id='user-password' name='password' type='password')
+        button.auth-btn Log In
+    else 
+      p You are already logged in 
+      a(href='/') Home Page
