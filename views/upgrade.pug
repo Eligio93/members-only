@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    .upgrade-box
+        if user
+            if user.admin 
+                p You are already an Admin 
+                a(href='/') Go to Home 
+            else 
+                form(action='' method='POST').form
+                    h2 Upgrade
+                    p=message
+                    label(for='upgrade-key') Upgrade Key
+                    input(id='upgrade-key' name='upgrade-key' type='text')
+                    button.info-btn Upgrade
+        else 
+            p You need to LogIn or Register first 
+            a(href='/login') Login
+            a(href='/signup') Register
