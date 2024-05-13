@@ -8,7 +8,7 @@ const session = require('express-session');
 const passport = require('./passport-config')
 const MongoStore = require('connect-mongo')
 const helmet = require('helmet')
-const compression =require('compression')
+const compression = require('compression')
 require('dotenv').config();
 
 
@@ -50,8 +50,8 @@ app.use(session({
 }))
 
 app.use(passport.session());
-app.use((req,res,next)=>{
-  res.locals.user=req.user;
+app.use((req, res, next) => {
+  res.locals.user = req.user;
   next();
 })
 

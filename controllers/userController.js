@@ -5,44 +5,41 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs')
 require('dotenv').config()
 
-
-function checkAdmin(key){
-  if(key===process.env.ADMIN_KEY){
+//declare functions to check if the key inserted by user are for MEmber or Admin Privileges
+function checkAdmin(key) {
+  if (key === process.env.ADMIN_KEY) {
     return true
   }
   return false
 }
-function checkMember(key){
-  if(checkAdmin(key) || key=== process.env.MEMBER_KEY){
+function checkMember(key) {
+  if (checkAdmin(key) || key === process.env.MEMBER_KEY) {
     return true
   }
   return false
 }
-
-
-
 
 /*GET login*/
 exports.login_get = function (req, res, next) {
-  const logInMessage=req.session.messages
-  req.session.messages=[]
-  res.render('log-in', { isAuthenticated: req.isAuthenticated(),logInMessage:logInMessage })
+  const logInMessage = req.session.messages
+  req.session.messages = []
+  res.render('log-in', { isAuthenticated: req.isAuthenticated(), logInMessage: logInMessage })
 }
 /*POST login*/
-exports.login_post =[
-  body('email','Email must be the following format: info@info.com')
-  .trim()
-  .isEmail()
-  .escape(),
+exports.login_post = [
+  body('email', 'Email must be the following format: info@info.com')
+    .trim()
+    .isEmail()
+    .escape(),
   body('password')
-  .trim()
-  .escape(),
-    passport.authenticate("local", {
-      successRedirect: '/',
-      failureRedirect: '/login',
-      failureMessage:true
-    })
-] 
+    .trim()
+    .escape(),
+  passport.authenticate("local", {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureMessage: true
+  })
+]
 
 /*GET logout*/
 exports.logout = function (req, res, next) {
@@ -61,32 +58,33 @@ exports.signup_get = function (req, res) {
 
 /*POST Signup*/
 exports.signup_post = [
-  //insert validation and sanitizing
-  body('name','Name must be at least 3 characters')
-  .trim()
-  .isLength({min:3})
-  .notEmpty()
-  .escape(),
-  body('lastName','Last Name must be at least 3 characters')
-  .trim()
-  .isLength({min:3})
-  .notEmpty()
-  .escape(),
+  //Sanitize and validate data
+  body('name', 'Name must be at least 3 characters')
+    .trim()
+    .isLength({ min: 3 })
+    .notEmpty()
+    .escape(),
+  body('lastName', 'Last Name must be at least 3 characters')
+    .trim()
+    .isLength({ min: 3 })
+    .notEmpty()
+    .escape(),
   body('email', 'Insert a valid email with the following format info@info.com')
-  .trim()
-  .isEmail()
-  .escape(),
-  body('password','Password must be at least 4 characters')
-  .trim()
-  .isLength({min:3})
-  .escape(),
+    .trim()
+    .isEmail()
+    .escape(),
+  body('password', 'Password must be at least 4 characters')
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
   body('permission-key')
-  .trim()
-  .escape(),
+    .trim()
+    .escape(),
 
   asyncHandler(async (req, res, next) => {
-    const validationErrors= validationResult(req);
-    if(validationErrors.isEmpty()){
+    const validationErrors = validationResult(req);
+    if (validationErrors.isEmpty()) {
+      //hash password inserted by the user
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       try {
         const user = new User({
@@ -101,38 +99,38 @@ exports.signup_post = [
         res.redirect("/login");
       } catch (err) {
         return next(err);
-      };     
-    }else{
-      console.log(validationErrors)
-      res.render('sign-up-form',{validationErrors})
+      };
+    } else {
+      res.render('sign-up-form', { validationErrors })
     }
-   
+
 
   })
 ]
 
 /*GEt Upgrade*/
-exports.upgrade_get= (req,res,next)=>{
+exports.upgrade_get = (req, res, next) => {
   res.render('upgrade')
 }
 
 /*POST Upgrade*/
-exports.upgrade_post=[
+exports.upgrade_post = [
+  //this happens in case the user wants to upgrade to Member or Admin
   body('upgrade-key')
-  .trim()
-  .escape(),
-  asyncHandler(async (req,res,next)=>{
-    const validationErrors= validationResult(req)
-    if(validationErrors.isEmpty()){
-      if(req.body['upgrade-key'] === process.env.ADMIN_KEY || req.body['upgrade-key'] === process.env.MEMBER_KEY ){
-        await User.findByIdAndUpdate(req.user.id,{admin:checkAdmin(req.body['upgrade-key']), member:checkMember(req.body['upgrade-key'])},{});
+    .trim()
+    .escape(),
+  asyncHandler(async (req, res, next) => {
+    const validationErrors = validationResult(req)
+    if (validationErrors.isEmpty()) {
+      if (req.body['upgrade-key'] === process.env.ADMIN_KEY || req.body['upgrade-key'] === process.env.MEMBER_KEY) {
+        await User.findByIdAndUpdate(req.user.id, { admin: checkAdmin(req.body['upgrade-key']), member: checkMember(req.body['upgrade-key']) }, {});
         res.redirect('/')
-      }else{
-        res.render('upgrade',{message:'Insert a valid Key'})
+      } else {
+        res.render('upgrade', { message: 'Insert a valid Key' })
       }
-    }else{
-      res.render('upgrade',{validationErrors})
+    } else {
+      res.render('upgrade', { validationErrors })
     }
-   
+
   })
 ]
