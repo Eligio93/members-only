@@ -15,6 +15,15 @@ Initially, the biggest challenge was understanding how Passport works with local
 
 In this project, I expanded my knowledge of using Express and authentication methods. Furthermore, it provided me with additional practice in database usage and manipulation. As it's primarily a back-end project, I dedicated less time to the front-end and styling aspects. Therefore, the project features basic graphics and is not responsive. I will certainly return to enhance the overall aesthetics of the application and make it available on mobile devices.
 
+## Live Preview
+
+[Live Preview Here]()
+
+## Secret keys
+
+To become a member: IamMember
+to become an admin: IamAdmin
+
 
 
 
