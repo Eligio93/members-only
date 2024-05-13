@@ -1,8 +1,10 @@
 :root{
-  --prussian-blue:#0B3C5D;
-  --gold-leaf:#D9B310;
-  --warm-peach:#CD5360;
-  --green:#B5D99C;
+  --header-grey:#2E3944;
+  --side-bar:#212A31;
+  --auth-btn:#124E66;
+  --green-btn:#748D92;
+  --message-box:#D3D9D4;
+  --delete-btn:#E7717D;
 }
 *{
   margin:0;
@@ -11,7 +13,8 @@
 }
 body{
   font-family: 'Quicksand', Helvetica, sans-serif;
-  height:1000px;
+  height:100vh;
+  overflow: hidden;
 }
 
 .header{
@@ -19,6 +22,29 @@ body{
   justify-content: space-between;
   align-items: center;
   height:10%;
+  background-color: var(--header-grey);
+  padding:0 50px;
+}
+.home-btn{
+  font-size: 1.5vw;
+  text-decoration: none;
+  color: white;
+  border:1px solid white;
+  padding:10px;
+  border-radius: 5px;
+}
+.auth-box{
+  display:flex;
+  gap:20px;
+}
+.auth-btn{
+  text-decoration: none;
+  background-color: var(--auth-btn);
+  color:white;
+  font-size: 1vw;
+  font-weight: bold;
+  padding: 10px;
+  border:2px solid white
 }
 .content{
   display:flex;
@@ -27,16 +53,133 @@ body{
 .info-box{
   width:30%;
   padding:50px;
+  background-color: var(--side-bar);
+  color:white;
+  display:flex;
+  flex-direction: column;
+  gap:30px;
+  align-items: center;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 8px 0px 15px 0px var(--side-bar);
+}
+.info-box h1{
+  font-size: 3vw;
+}
+.info-btn{
+  text-decoration: none;
+  background-color: var(--green-btn);
+  color:var(--side-bar);
+  padding:10px;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
 }
 .messages-box{
   display:flex;
   align-content: flex-start;
   flex-wrap: wrap;
-  gap:20px;
-  row-gap: 20px;
+  gap:30px;
+  padding:50px;
   flex:1;
+  overflow-y: scroll;  
 }
 .message{
-  width:30%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  width:100%;
+  background-color: var(--message-box);
+  border-radius: 10px;
+  padding:20px;
+  box-shadow: 5px 5px 15px 5px var(--green-btn);
+}
+.message-title{
+  font-size: 2vw;
+  font-weight: bold;
+  color:var(--side-bar)
+}
+.message-text{
+  font-size: 1.5vw;
+}
+.message-info{
+  display:flex;
+  gap:20px;
+  justify-content: flex-end;
+  font-style: italic;
+}
+.delete-btn{
+  text-decoration: none;
+  background-color: var(--delete-btn);
+  width: fit-content;
+  padding:10px;
+  color:white;
+  font-weight: bold;
+}
 
+/*Instruction Page*/
+.card-box{
+  display:flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding:50px;
+  gap:30px;
+}
+.card{
+  display:flex;
+  flex-direction: column;
+  background-color: var(--message-box);
+  border-radius: 10px;
+  padding:20px;
+  box-shadow: 5px 5px 15px 5px var(--green-btn);
+  
+}
+.card img{
+  height: 50px;
+}
+.card-title{
+  align-self: center;
+  font-size: 1.8vw;
+  font-weight:500;
+}
+/*LOGIN PAGE*/
+.log-in-box,.signup-box,.upgrade-box,.delete-box,.message-box{
+display:flex;
+flex-direction: column;
+align-items: center;
+flex:1;
+}
+.log-in-box h2, .signup-box h2,.upgrade-box h2,.delete-box h2,.message-box h2{
+  margin-bottom:30px
+}
+.form{
+  display:flex;
+  flex-direction: column;
+  background-color: var(--message-box);
+  margin-top:50px;
+  width:30%;
+  height: fit-content;
+  padding:50px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px 5px var(--green-btn);
+}
+.form label{
+  font-weight: bold;
+}
+.form input{
+  margin-bottom:10px;
+  font-size: 1.5vw;
+  border-radius: 5px;
+  padding:5px;
+  
+}
+.delete-btns{
+  margin-top:30px;
+  display:flex;
+  flex-direction: column;
+  gap:20px;
+}
+.sess-message{
+  color:red;
+  font-weight: bold;
 }
