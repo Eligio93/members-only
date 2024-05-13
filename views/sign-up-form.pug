@@ -1,17 +1,22 @@
 extends layout
 
 block content
-  .signup-box
-    form(action='' method='POST').form
-      h2 Sign Up
-      label(for='user-name') Name*
-      input(id='user-name' name='name' placeholder='Name' type='text')
-      label(for='user-last-name') Last Name*
-      input(id='user-last-name' name='lastName' placeholder='Last Name' type='text')
-      label(for='user-email') Email*
-      input(id='user-email' name='email' placeholder='email@email.com' type='email')
-      label(for='user-password') Password*
-      input(id='user-password' name='password' type='password')
-      label(for='permission-key') Admin Key
-      input(id='permission-key' name='permission-key' type='text' placeholder='Admin Key || Member Key')
-      button.auth-btn Sign Up
+  if !user
+    .signup-box
+      form(action='' method='POST').form
+        h2 Sign Up
+        label(for='user-name') Name*
+        input(id='user-name' name='name' placeholder='Name' type='text')
+        label(for='user-last-name') Last Name*
+        input(id='user-last-name' name='lastName' placeholder='Last Name' type='text')
+        label(for='user-email') Email*
+        input(id='user-email' name='email' placeholder='email@email.com' type='email')
+        label(for='user-password') Password*
+        input(id='user-password' name='password' type='password')
+        label(for='permission-key') Admin Key
+        input(id='permission-key' name='permission-key' type='text' placeholder='Admin Key || Member Key')
+        button.auth-btn Sign Up
+  else
+    p You can't register a new user while logged in
+    br
+    a(href='/logout') Log Out
