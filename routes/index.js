@@ -38,4 +38,9 @@ router.get('/delete/:messageId',messageController.delete_message_get)
 /*POST delete message*/
 router.post('/delete/:messageId',messageController.delete_message_post)
 
+/*GET Upgrade Status*/
+router.get('/upgrade',userController.upgrade_get)
+/*POST Upgrade Status*/
+router.post('/upgrade',userController.upgrade_post)
+
 module.exports = router;
