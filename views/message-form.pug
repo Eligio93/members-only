@@ -5,6 +5,10 @@ block content
     if user
       form(action='' method='POST').form
         h2 New Message
+        if validationErrors 
+          ul 
+          each error in validationErrors.errors
+            li.sess-message= error.msg
         label(for='messageTitle') Message Title
         input(id='messageTitle' name='messageTitle' type='text' required minLength='3')
         label(for='message') Message

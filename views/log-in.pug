@@ -5,12 +5,16 @@ block content
     if !isAuthenticated
       form(action='' method='POST').form
         h2 Log In
+        if validationErrors 
+          ul 
+          each error in validationErrors.errors
+            li.sess-message= error.msg
         if logInMessage && logInMessage.length > 0
           p.sess-message=logInMessage
         label(for='user-email') Email
-        input(id='user-email' name='email' placeholder='test@test.com' type='email')
+        input(id='user-email' name='email' placeholder='test@test.com' type='email' required)
         label(for='user-password') Password
-        input(id='user-password' name='password' type='password')
+        input(id='user-password' name='password' type='password' required)
         button.auth-btn Log In
     else 
       p You are already logged in 

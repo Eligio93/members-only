@@ -9,7 +9,11 @@ block content
             else 
                 form(action='' method='POST').form
                     h2 Upgrade
-                    p=message
+                    if validationErrors 
+                        ul 
+                        each error in validationErrors.errors
+                            li.sess-message=error
+                    p.sess-message=message
                     label(for='upgrade-key') Upgrade Key
                     input(id='upgrade-key' name='upgrade-key' type='text')
                     button.info-btn Upgrade

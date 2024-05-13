@@ -29,11 +29,20 @@ exports.login_get = function (req, res, next) {
   res.render('log-in', { isAuthenticated: req.isAuthenticated(),logInMessage:logInMessage })
 }
 /*POST login*/
-exports.login_post = passport.authenticate("local", {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureMessage:true
-})
+exports.login_post =[
+  body('email','Email must be the following format: info@info.com')
+  .trim()
+  .isEmail()
+  .escape(),
+  body('password')
+  .trim()
+  .escape(),
+    passport.authenticate("local", {
+      successRedirect: '/',
+      failureRedirect: '/login',
+      failureMessage:true
+    })
+] 
 
 /*GET logout*/
 exports.logout = function (req, res, next) {
@@ -108,11 +117,22 @@ exports.upgrade_get= (req,res,next)=>{
 }
 
 /*POST Upgrade*/
-exports.upgrade_post=asyncHandler(async (req,res,next)=>{
-  if(req.body['upgrade-key'] === process.env.ADMIN_KEY || req.body['upgrade-key'] === process.env.MEMBER_KEY ){
-    await User.findByIdAndUpdate(req.user.id,{admin:checkAdmin(req.body['upgrade-key']), member:checkMember(req.body['upgrade-key'])},{});
-    res.redirect('/')
-  }else{
-    res.render('upgrade',{message:'Insert a valid Key'})
-  }  
-})
+exports.upgrade_post=[
+  body('upgrade-key')
+  .trim()
+  .escape(),
+  asyncHandler(async (req,res,next)=>{
+    const validationErrors= validationResult(req)
+    if(validationErrors.isEmpty()){
+      if(req.body['upgrade-key'] === process.env.ADMIN_KEY || req.body['upgrade-key'] === process.env.MEMBER_KEY ){
+        await User.findByIdAndUpdate(req.user.id,{admin:checkAdmin(req.body['upgrade-key']), member:checkMember(req.body['upgrade-key'])},{});
+        res.redirect('/')
+      }else{
+        res.render('upgrade',{message:'Insert a valid Key'})
+      }
+    }else{
+      res.render('upgrade',{validationErrors})
+    }
+   
+  })
+]
