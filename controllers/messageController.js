@@ -22,7 +22,6 @@ exports.newMessage_post=asyncHandler(async (req,res,next)=>{
         author: author,
         date: date
     })
-    console.log(message.date)
     await message.save()
     res.redirect('/')
 })
