@@ -17,7 +17,7 @@ In this project, I expanded my knowledge of using Express and authentication met
 
 ## Live Preview
 
-[Live Preview Here]()
+[Live Preview Here](https://ec-membersonly.up.railway.app/)
 
 ## Secret keys
 
