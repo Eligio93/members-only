@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('./passport-config')
 const MongoStore = require('connect-mongo')
+const helmet = require('helmet')
+const compression =require('compression')
 require('dotenv').config();
 
 
@@ -25,6 +27,9 @@ async function main() {
 
 //create the app
 var app = express();
+app.use(compression());
+app.use(helmet());
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
