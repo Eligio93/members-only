@@ -53,23 +53,52 @@ exports.signup_get = function (req, res) {
 /*POST Signup*/
 exports.signup_post = [
   //insert validation and sanitizing
+  body('name','Name must be at least 3 characters')
+  .trim()
+  .isLength({min:3})
+  .notEmpty()
+  .escape(),
+  body('lastName','Last Name must be at least 3 characters')
+  .trim()
+  .isLength({min:3})
+  .notEmpty()
+  .escape(),
+  body('email', 'Insert a valid email with the following format info@info.com')
+  .trim()
+  .isEmail()
+  .escape(),
+  body('password','Password must be at least 4 characters')
+  .trim()
+  .isLength({min:3})
+  .escape(),
+  body('permission-key')
+  .trim()
+  .escape(),
+
   asyncHandler(async (req, res, next) => {
+    const validationErrors= validationResult(req);
+    if(validationErrors.isEmpty()){
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      try {
+        const user = new User({
+          name: req.body.name,
+          lastName: req.body.lastName,
+          email: req.body.email,
+          password: hashedPassword,
+          member: checkMember(req.body["permission-key"]),
+          admin: checkAdmin(req.body["permission-key"])
+        });
+        await user.save();
+        res.redirect("/login");
+      } catch (err) {
+        return next(err);
+      };     
+    }else{
+      console.log(validationErrors)
+      res.render('sign-up-form',{validationErrors})
+    }
    
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    try {
-      const user = new User({
-        name: req.body.name,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: hashedPassword,
-        member: checkMember(req.body["permission-key"]),
-        admin: checkAdmin(req.body["permission-key"])
-      });
-      await user.save();
-      res.redirect("/login");
-    } catch (err) {
-      return next(err);
-    };
+
   })
 ]
 
